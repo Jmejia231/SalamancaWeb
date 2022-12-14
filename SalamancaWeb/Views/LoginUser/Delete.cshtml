@@ -1,0 +1,26 @@
+﻿@using SalamancaWeb.Models;
+@model LoginUser
+@{
+    Layout = null;
+}
+
+<div class="card">
+    @using(Html.BeginForm("Delete", "LoginUser", FormMethod.Post, new { @id = "formulario" }))
+    {
+        @Html.HiddenFor(m => m.idLoginUser)
+        <div class="card-body">
+            <p>¿Seguro que deseas eliminar el Usuario: <span class="font-weight-bold">@Model.username</span> de <span class="font-weight-bold">@Model.person.names @Model.person.fatherLastname @Model.person.motherLastname </span>?</p>
+            <p class="font-italic">*Se eliminaran todos los datos asociados a la Cuenta.</p>
+        </div>
+        <div class="card-footer row">
+            <div class="col-md-6">
+                <button id="btnDelete" data-message="Eliminando Usuario!" type="submit" class="btn btn-primary btn-block"><i class="fas fa-trash"></i>  Eliminar</button>
+            </div>
+            <div class="col-md-6">
+                <button data-dismiss="modal" class="btn btn-danger btn-block">Cancelar</button>
+            </div>
+        </div>
+    }
+</div>
+
+<script src="~/Assets/model/actions/delete.js"></script>

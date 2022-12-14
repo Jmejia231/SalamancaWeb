@@ -1,0 +1,40 @@
+﻿@using SalamancaWeb.Models;
+@model Inquery
+
+@{
+    ViewBag.Title = "Detalle de la Consulta";
+    Layout = null;
+}
+
+<div class="card">
+    <div class="card-body">
+        <dl class="dl-horizontal">
+            <div class="row">
+                <div class="col-12">
+                    <dt>ID</dt>
+                    <dd>@Model.idInquery</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Nombres</dt>
+                    <dd>@Model.person.names</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Apellidos</dt>
+                    <dd>@Model.person.fatherLastname @Model.person.motherLastname</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Fecha y Hora</dt>
+                    <dd>@Model.dateTime.ToString("dd/MM/yyyy - hh:mm tt")</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Estado</dt>
+                    <dd class="@(Model.status?"text-success":"text-danger")">@(Model.status?"Activo":"Inactivo")</dd>
+                </div>
+                <div class="col-12">
+                    <dt>Motivo</dt>
+                    <dd>@Model.motive</dd>
+                </div>
+            </div>
+        </dl>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+﻿/*color de letra de las opciones en disabled*/
+.select2-container--bootstrap4 .select2-results__option[aria-disabled=true] {
+    color: #dc3545 !important;
+}
+
+/*color de letra de las opciones en no disabled*/
+.select2-container--bootstrap4 .select2-results__option {
+    color: #28a745 !important;
+}
+
+/*cuando un elemento este seleccionado*/
+.select2-container--bootstrap4 .select2-results__option--highlighted, .select2-container--bootstrap4 .select2-results__option--highlighted.select2-results__option[aria-selected="true"] {
+    color: #fff !important;
+    background-color: #007bff !important;
+}
+
+/*color del teto de cada group*/
+.select2-container--bootstrap4 .select2-results__group {
+    color: #007bff !important;
+}
+
+/*color de letra de los nombres de los grupos en disabled*/
+.select2-container--bootstrap4 .select2-results__option[aria-disabled=true] .select2-results__group {
+    color: #dc3545 !important;
+}
+
+/*Color de fondo de cada opcion multiple*/
+.select2-container--bootstrap4 .select2-dropdown .select2-results__option[aria-selected="true"] {
+    background-color: #dbdbdb;
+}
+
+/*cada opcion que se selecciona de un drop dpwnm multiple*/
+.select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice {
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    background-color: #007bff;
+}
+
+/**/
+.select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice__remove {
+    color: #ffffff;
+}
+
+/*Para centrar verticalmente el contenido de las tablas*/
+table th, table td {
+    vertical-align: middle !important;
+}

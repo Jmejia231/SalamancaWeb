@@ -1,0 +1,40 @@
+﻿@using SalamancaWeb.Models;
+@model Antecedent
+
+@{
+    ViewBag.Title = "Detalle de los Antecedentes";
+    Layout = null;
+}
+
+<div class="card">
+    <div class="card-body">
+        <dl class="dl-horizontal">
+            <div class="row">
+                <div class="col-12">
+                    <dt>ID</dt>
+                    <dd>@Model.idAntecedent</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Nombres</dt>
+                    <dd>@Model.inquery.person.names</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Apellidos</dt>
+                    <dd>@Model.inquery.person.fatherLastname @Model.inquery.person.motherLastname</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Tipo de Antecedente</dt>
+                    <dd>@Model.antecedentType.name</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Fecha y Hora</dt>
+                    <dd>@Model.dateRegistered.ToString("dd/MM/yyyy - hh:mm tt")</dd>
+                </div>
+                <div class="col-12">
+                    <dt>Descripcion</dt>
+                    <dd>@Model.description</dd>
+                </div>
+            </div>
+        </dl>
+    </div>
+</div>

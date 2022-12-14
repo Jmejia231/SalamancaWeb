@@ -1,0 +1,25 @@
+﻿@using SalamancaWeb.Models;
+@model TreatmentStatus
+@{
+    Layout = null;
+}
+
+<div class="card">
+    @using(Html.BeginForm("Delete", "TreatmentStatus", FormMethod.Post, new { @id = "formulario" })) {
+        @Html.HiddenFor(m => m.idTreatmentStatus)
+        <div class="card-body">
+            <p>¿Seguro que deseas eliminar el Estado Tratamiento:  <span class="font-weight-bold">@Model.name</span>?</p>
+            <p class="font-italic">*Se eliminaran todos los datos asociados al Estado Tratamiento.</p>
+        </div>
+        <div class="card-footer row">
+            <div class="col-md-6">
+                <button id="btnDelete" data-message="Eliminando Estado Tratamiento!" type="submit" class="btn btn-primary btn-block"><i class="fas fa-trash"></i>  Eliminar</button>
+            </div>
+            <div class="col-md-6">
+                <button data-dismiss="modal" class="btn btn-danger btn-block">Cancelar</button>
+            </div>
+        </div>
+    }
+</div>
+
+<script src="~/Assets/model/actions/delete.js"></script>

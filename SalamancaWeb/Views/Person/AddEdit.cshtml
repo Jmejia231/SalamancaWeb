@@ -1,0 +1,308 @@
+﻿@using SalamancaWeb.Models;
+@using SalamancaWeb.Resources;
+@model Person
+@{
+    ViewBag.Title = (Model.idPerson > 0 ? "Editar" : "Agregar") + " Persona";
+    Layout = null;
+
+    List<SelectListItem> documentIdentityTypes = (List<SelectListItem>)ViewBag.documentIdentityTypes;
+    List<SelectListItem> cities = (List<SelectListItem>)ViewBag.cities;
+    List<SelectListItem> genders = (List<SelectListItem>)ViewBag.genders;
+}
+
+@using(Html.BeginForm("Save", "Person", FormMethod.Post, new { @id = "formulario", @autocomplete = "off" })) {
+    @Html.HiddenFor(m => m.idPerson)
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-5">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.documentIdentityType.idDocumentIdentityType)
+                        @Html.DropDownListFor(model => model.documentIdentityType.idDocumentIdentityType, documentIdentityTypes, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-5">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.documentIdentityNumber)
+                        @Html.TextBoxFor(model => model.documentIdentityNumber, null, new { @class = "form-control", @placeholder = "N° Documento" })
+                    </div>
+                </div>
+                <div class="col-2 align-self-end">
+                    <button type=button id="buscarPersonaReniec" class="btn btn-info btn mb-3"><i class='bx bx-search-alt-2'></i></button>
+                </div>
+                <div class="col-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.names)
+                        @Html.TextBoxFor(model => model.names, null, new { @class = "form-control", @placeholder = "Nombres de la Persona" })
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.fatherLastname)
+                        @Html.TextBoxFor(model => model.fatherLastname, null, new { @class = "form-control", @placeholder = "Apellido Paterno" })
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.motherLastname)
+                        @Html.TextBoxFor(model => model.motherLastname, null, new { @class = "form-control", @placeholder = "Apellido Materno" })
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.gender.idGender)
+                        @Html.DropDownListFor(model => model.gender.idGender, genders, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.birthdate)
+                        @Html.TextBoxFor(model => model.birthdate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @placeholder = "Seleccione una fecha" })
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.city.idCity)
+                        @Html.DropDownListFor(model => model.city.idCity, cities, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-5">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.phoneNumber)
+                        @Html.TextBoxFor(model => model.phoneNumber, null, new { @class = "form-control", @placeholder = "N° Telefono" })
+                    </div>
+                </div>
+                <div class="col-7">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.email)
+                        @Html.TextBoxFor(model => model.email, null, new { @class = "form-control", @placeholder = "Correo" })
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.address)
+                        @Html.TextBoxFor(model => model.address, null, new { @class = "form-control", @placeholder = "Direccion" })
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.isPatient)
+                        <br />
+                        <input type="checkbox" name="isPatient" id="isPatient" @(Model.isPatient ? "checked" : "") data-bootstrap-switch data-on-text="Si" data-off-text="No" data-off-color="warning" data-on-color="primary" value="true">
+                        <input name="isPatient" type="hidden" value="false">
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.status)
+                        <br />
+                        <input type="checkbox" name="status" id="status" @(Model.status ? "checked" : "") data-bootstrap-switch data-off-color="danger" data-on-color="success" value="true">
+                        <input name="status" type="hidden" value="false">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer row">
+            <div class="col-md-6">
+                <button id="btnSave" data-message="@((Model.idPerson > 0 ? "Modificando" : "Agregando") + " Persona...!!!")" type="submit" class="btn btn-primary btn-block"><i class="fas fa-save"></i>  Guardar</button>
+            </div>
+            <div class="col-md-6">
+                <button data-dismiss="modal" class="btn btn-danger btn-block">Cancelar</button>
+            </div>
+        </div>
+    </div>
+}
+<script src="~/Assets/model/actions/addedit.js"></script>
+<script>
+    $(function () {
+        //validaciones
+        $('#formulario').validate({
+            rules: {
+                'city.idCity': {
+                    required: true
+                },
+                'documentIdentityType.idDocumentIdentityType': {
+                    required: true
+                },
+                'gender.idGender': {
+                    required: true
+                },
+                names: {
+                    required: true,
+                    maxlength: 50,
+                    minlength: 3
+                },
+                address: {
+                    required: true,
+                    maxlength: 100,
+                    minlength: 10
+                },
+                email: {
+                    required: true,
+                    email: true,
+                    maxlength: 100,
+                    minlength: 5
+                },
+                phoneNumber: {
+                    required: true,
+                    maxlength: 12,
+                    minlength: 9
+                },
+                fatherLastname: {
+                    required: true,
+                    maxlength: 50,
+                    minlength: 3
+                },
+                motherLastname: {
+                    required: true,
+                    maxlength: 50,
+                    minlength: 3
+                },
+                birthdate: {
+                    required: true
+                },
+                documentIdentityNumber: {
+                    required: true,
+                    maxlength: 20,
+                    minlength: 8
+                },
+            },
+            messages: {
+                'city.idCity': {
+                    required: "Seleccione una Ciudad",
+                },
+                'documentIdentityType.idDocumentIdentityType': {
+                    required: "Seleccione un Tipo de Documento de Identidad",
+                },
+                'gender.idGender': {
+                    required: "Seleccione un Genero",
+                },
+                names: {
+                    required: "Ingresar un Nombre",
+                    maxlength: "El nombre del departamento debe tener como máximo 50 caracteres",
+                    minlength: "El nombre del departamento debe tener como minimo 3 caracteres"
+                },
+                address: {
+                    required: "Ingresar Direccion",
+                    maxlength: "La direccion debe tener como máximo 100 caracteres",
+                    minlength: "La direccion debe tener como minimo 10 caracteres"
+                },
+                email: {
+                    required: "Ingrese un correo electronico",
+                    email: "Ingrese un correo electronico valido",
+                    maxlength: "Correo debe tener como máximo 100 caracteres",
+                    minlength: "Correo debe tener como minimo 10 caracteres"
+                },
+                phoneNumber: {
+                    required: "Ingresar N° Telefono",
+                    maxlength: "Telefono debe tener como máximo 12 caracteres",
+                    minlength: "Telefono debe tener como minimo 9 caracteres"
+                },
+                fatherLastname: {
+                    required: "Ingresar Apellido Paterno",
+                    maxlength: "El Apellido debe tener como máximo 50 caracteres",
+                    minlength: "El Apellido debe tener como minimo 3 caracteres"
+                },
+                motherLastname: {
+                    required: "Ingresar Apellido Materno",
+                    maxlength: "El Apellido debe tener como máximo 50 caracteres",
+                    minlength: "El Apelliodo debe tener como minimo 3 caracteres"
+                },
+                birthdate: {
+                    required: "Ingrese Fecha de Nacimiento",
+                },
+                documentIdentityNumber: {
+                    required: "Ingresar N° de Identidad",
+                    maxlength: "El Apellido debe tener como máximo 20 caracteres",
+                    minlength: "El Apelliodo debe tener como minimo 8 caracteres"
+                },
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+        //DropDownList Select2
+        var modalFather = $('#modalPerson');
+        var cmbCity = $('#city_idCity');
+        var cmbDocumentType = $('#documentIdentityType_idDocumentIdentityType');
+        var cmbGender = $('#gender_idGender');
+
+        createCMB(cmbCity, "Seleccione una Ciudad", modalFather)
+        createCMB(cmbDocumentType, "Seleccione Tipo de Documento", modalFather)
+        createCMB(cmbGender, "Seleccione el Genero", modalFather)
+
+        if (`@Model.idPerson` == 0)
+        {
+            clearSelection(cmbCity)
+            clearSelection(cmbDocumentType)
+            clearSelection(cmbGender)
+        }
+        //Switch
+        $("input[data-bootstrap-switch]").each(function () {
+            $(this).bootstrapSwitch('state', $(this).prop('checked'));
+        })
+        //para la fecha
+        if (`@Model.idPerson` == 0) {
+            document.getElementById('birthdate').value = "";    
+        }
+        //para buscar la persona
+        var txtDNI = document.getElementById("documentIdentityNumber");
+        var btnBUscarDNI = document.getElementById("buscarPersonaReniec");
+        var cmbTipoDocumento = document.getElementById("documentIdentityType_idDocumentIdentityType");
+
+        btnBUscarDNI.addEventListener("click", function (event) {
+            let dni = txtDNI.value;
+            let longitudDni = dni.length;
+            let tipoDocumento = cmbTipoDocumento.value;
+            console.log(tipoDocumento)
+            //valida que el tipo de documento sea DNI
+            if (tipoDocumento != 1) {
+                Swal.fire("Error", "Tiene que seleccionar el Tipo de Documento: DNI, para poder buscar en la RENIEC", "error")
+                return;
+            }
+
+            //valida que se haya escrito algo
+            if (dni == undefined || dni == "" || dni == null) {
+                Swal.fire("Error", "Tiene ingresar un Número de DNI para buscar", "error")
+                return;
+            }
+
+            //valida que tenga 8 digitos
+            if (longitudDni != 8) {
+                Swal.fire("Error", "Tiene ingresar 8 digitos para realizar la busqueda por DNI", "error")
+                return;
+            }
+
+            let url = `@Html.Raw(Resource.BaseUrlApiReniec)${dni}?token=@Html.Raw(Resource.TokenApiReniec)`;
+            showAlertLoading(`Buscando datos del DNI ${dni}`)
+            fetch(url)
+                .then(request => request.json())
+                .then(data => {
+                    var exist = completePersonData(data)
+                    Swal.close();
+                    if (!exist) {
+                        Swal.fire("Error", `No se encontraron datos del DNI ${dni}, ingreselos manualmente`, "error")
+                    }
+                });
+
+            function completePersonData(persona) {
+                try {
+                    document.getElementById("names").value = capitalizeWords(persona.nombres);
+                    document.getElementById("fatherLastname").value = capitalizeWords(persona.apellidoPaterno);
+                    document.getElementById("motherLastname").value = capitalizeWords(persona.apellidoMaterno);
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            }
+        });
+    });
+</script>

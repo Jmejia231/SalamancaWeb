@@ -1,0 +1,130 @@
+﻿@using SalamancaWeb.Models;
+@model LoginUser
+@{
+    ViewBag.Title = (Model.idLoginUser > 0 ? "Editar" : "Agregar") + " Usuario";
+    Layout = null;
+
+    List<SelectListItem> userTypes = (List<SelectListItem>)ViewBag.userTypes;
+    List<SelectListItem> persons = (List<SelectListItem>)ViewBag.persons;
+
+}
+
+@using(Html.BeginForm("Save", "LoginUser", FormMethod.Post, new { @id = "formulario", @autocomplete = "off" }))
+{
+    @Html.HiddenFor(m => m.idLoginUser)
+    <div class="card">
+        <div class="card-body">
+            <div class="col-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.userType.idUserType)
+                    @Html.DropDownListFor(model => model.userType.idUserType, userTypes, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.person.idPerson)
+                    @Html.DropDownListFor(model => model.person.idPerson, persons, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.username)
+                    @Html.TextBoxFor(model => model.username, null, new { @class = "form-control", @placeholder = "Usuario" })
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.password)
+                    @Html.TextBoxFor(model => model.password, null, new { @class = "form-control", @type="password", @placeholder = "Contraseña" })
+                </div>
+            </div>
+        </div>
+        <div class="card-footer row">
+            <div class="col-md-6">
+                <button id="btnSave" data-message="@((Model.idLoginUser > 0 ? "Modificando" : "Agregando") + " Usuario!!!")" type="submit" class="btn btn-primary btn-block"><i class="fas fa-save"></i>  Guardar</button>
+            </div>
+            <div class="col-md-6">
+                <button data-dismiss="modal" class="btn btn-danger btn-block">Cancelar</button>
+            </div>
+        </div>
+    </div>
+}
+<script src="~/Assets/model/actions/addedit.js"></script>
+<script>
+    $(function () {
+        $('#formulario').validate({
+            rules: {
+                'userType.idUserType': {
+                    required: true,
+                },
+                'person.idPerson': {
+                    required: true,
+                },
+                username: {
+                    required: true,
+                    maxlength: 25,
+                    minlength: 5
+                },
+                @if(Model.idLoginUser == 0) { 
+                    <text>
+                        password: {
+                            required: true,
+                            maxlength: 20,
+                            minlength: 6
+                        },
+                    </text>
+                }
+            },
+            messages: {
+                'userType.idUserType': {
+                    required: "Seleccione un tipo de usuario",
+                },
+                'person.idPerson': {
+                    required: "Seleccione una persona",
+                },
+                name: {
+                    required: "Ingresar nombre de Usuario",
+                    maxlength: "El nombre del Usuario debe tener como máximo 25 caracteres",
+                    minlength: "El nombre del Usuario debe tener como minimo 5 caracteres"
+                },
+                @if(Model.idLoginUser == 0){
+                    <text>
+                        password: {
+                            required: "Ingresar una clave",
+                            maxlength: "La Clave debe tener como máximo 20 caracteres",
+                            minlength: "La Clave debe tener como minimo 6 caracteres"
+                        }
+                    </text>
+                }
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+        //DropDownList Select2
+        var modalFather = $('#modalLoginUser');
+        var cmbUserType = $('#userType_idUserType');
+        var cmbPerson = $('#person_idPerson');
+
+        createCMB(cmbUserType, "Seleccione un Tipo de Usuario", modalFather)
+        createCMB(cmbPerson, "Seleccione una Persona", modalFather)
+
+        if (`@Model.idLoginUser` == 0)
+        {
+            clearSelection(cmbUserType)
+            clearSelection(cmbPerson)
+        }
+        //switch
+        $("input[data-bootstrap-switch]").each(function () {
+            $(this).bootstrapSwitch('state', $(this).prop('checked'));
+        })
+    });
+</script>

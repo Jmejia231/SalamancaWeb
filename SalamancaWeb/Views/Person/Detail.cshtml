@@ -1,0 +1,77 @@
+﻿@using SalamancaWeb.Models;
+@using SalamancaWeb.Resources;
+@model Person
+@{
+    ViewBag.Title = "Detalle de la Persona";
+    Layout = null;
+}
+
+<div class="card">
+    <div class="card-body">
+        <dl class="dl-horizontal">
+            <div class="row">
+                <!--<div class="col-12">-->
+                @*<dt>ID</dt>
+        <dd>@Model.idPersona</dd>*@
+                <!--</div>-->
+                <div class="col-4">
+                    <dt>Nombres</dt>
+                    <dd>@Model.names</dd>
+                </div>
+                <div class="col-4">
+                    <dt>Apellido Paterno</dt>
+                    <dd>@Model.fatherLastname</dd>
+                </div>
+                <div class="col-4">
+                    <dt>Apellido Materno</dt>
+                    <dd>@Model.motherLastname</dd>
+                </div>
+
+                <div class="col-6">
+                    <dt>Tipo de Documento</dt>
+                    <dd>@Model.documentIdentityType.abbreviation</dd>
+                </div>
+                <div class="col-6">
+                    <dt>N° Documento Identidad</dt>
+                    <dd>@Model.documentIdentityNumber</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Pais</dt>
+                    <dd>@Model.city.country.name</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Departamento</dt>
+                    <dd>@Model.city.name</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Fecha Nacimiento</dt>
+                    <dd>@Model.birthdate.ToString(Resource.LatinDateFormat)</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Genero</dt>
+                    <dd>@Model.gender.name</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Telefono</dt>
+                    <dd>@Model.phoneNumber</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Correo</dt>
+                    <dd>@Model.email</dd>
+                </div>
+                <div class="col-12">
+                    <dt>Direccion</dt>
+                    <dd>@Model.address</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Es Paciente:</dt>
+                    <dd class="@(Model.isPatient?"text-success":"text-danger") font-weight-bold">@(Model.isPatient?"Activo":"Inactivo")</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Estado</dt>
+                    <dd class="@(Model.status?"text-success":"text-danger") font-weight-bold">@(Model.status?"Activo":"Inactivo")</dd>
+                </div>
+            </div>
+        </dl>
+    </div>
+</div>

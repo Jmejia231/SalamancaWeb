@@ -1,0 +1,56 @@
+﻿@using SalamancaWeb.Models;
+@model TreatmentDetail
+
+@{
+    ViewBag.Title = "Detalle Del Detalle de Tratamiento";
+    Layout = null;
+}
+
+<div class="card">
+    <div class="card-body">
+        <dl class="dl-horizontal">
+            <div class="row">
+                <div class="col-12">
+                    <dt>ID</dt>
+                    <dd>@Model.idTreatmentDetail</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Fecha</dt>
+                    <dd>@Model.date.ToString("dd/MM/yyyy")</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Pieza</dt>
+                    <dd>@Model.piece</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Nombres</dt>
+                    <dd>@Model.treatment.inquery.person.names</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Apellidos</dt>
+                    <dd>@Model.treatment.inquery.person.fatherLastname @Model.treatment.inquery.person.motherLastname</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Tratamiento</dt>
+                    <dd>@Model.treatment.treatmentType.name</dd>
+                </div>
+                <div class="col-12">
+                    <dt>Color</dt>
+                    <dd><span class="badge" style="background-color: @Model.treatmentStatus.color; color:#ffffff;">@Model.treatmentStatus.name</span></dd>
+                </div>
+                <div class="col-4">
+                    <dt>Debe</dt>
+                    <dd>@Model.owns</dd>
+                </div>
+                <div class="col-4">
+                    <dt>Haber</dt>
+                    <dd>@Model.credit</dd>
+                </div>
+                <div class="col-4">
+                    <dt>Saldo</dt>
+                    <dd>@Model.balance</dd>
+                </div>
+            </div>
+        </dl>
+    </div>
+</div>

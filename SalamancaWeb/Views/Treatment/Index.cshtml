@@ -1,0 +1,142 @@
+﻿@using SalamancaWeb.Models
+@using SalamancaWeb.Resources
+@model List<Treatment>
+@{
+    ViewBag.Title = Options.Treatment;
+    ViewBag.messageAlert = Session["messageAlert"];
+    ViewBag.titleAlert = Session["titleAlert"];
+    ViewBag.iconAlert = Session["iconAlert"];
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>@Options.Treatment</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Mantenimiento</a></li>
+                    <li class="breadcrumb-item active">@Options.Treatment</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <button type="button" class="btn bg-gradient-info" id="btnAddTreatment" data-title="Agregar Tratamiento" data-target="#modalTreatment" data-toggle="modal">
+                            <i class='bx bxs-plus-circle'></i>
+                            @AddMessage.Treatment
+                        </button>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="col-12 table-responsive mx-auto">
+                            <table id="table" class="table table-bordered table-hover table-sm text-center">
+                                <thead>
+                                    <tr>
+                                        <th>N°</th>
+                                        <th>Consulta</th>
+                                        <th>Tipo de Tratamiento</th>
+                                        <th>Precio</th>
+                                        <th>Tiempo Estimado</th>
+                                        <th width="130px">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{int i = 1;}
+                                    @foreach(var Treatment in Model)
+                                    {
+                                        <tr>
+                                            <td>@i</td>
+                                            <td>@Treatment.inquery.person.names @Treatment.inquery.person.fatherLastname @Treatment.inquery.person.motherLastname - @Treatment.inquery.dateTime.ToString("dd/MM/yyyy")</td>
+                                            <td>@Treatment.treatmentType.name</td>
+                                            <td>@Treatment.priceSoles</td>
+                                            <td>@Treatment.timeEstimated</td>
+                                            <td>
+                                                <button class="btn btn-primary btnDetailTreatment" type="button" data-id="@Treatment.idTreatment" data-title="Detalle del Tratamiento" data-target="#modalTreatment" data-toggle="modal">
+                                                    <i class='bx bx-info-circle'></i>
+                                                </button>
+                                                <button class="btn btn-success btnEditTreatment" type="button" data-id="@Treatment.idTreatment" data-title="Actualizar Tratamiento" data-target="#modalTreatment" data-toggle="modal">
+                                                    <i class='bx bxs-edit'></i>
+                                                </button>
+                                                <button class="btn btn-danger btnDeleteTreatment" type="button" data-id="@Treatment.idTreatment" data-title="Eliminar Tratamiento" data-target="#modalTreatment" data-toggle="modal">
+                                                    <i class='bx bx-trash'></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        i++;
+                                    }
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+
+
+<div class="modal fade" id="modalTreatment" tabindex="-1" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCourseTitle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="modalTreatmentContenido">
+                </div>@* Contenido del Modal *@
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Assets/model/treatment.js"></script>
+<script type="text/javascript">
+
+    let titulo = "@ViewBag.titleAlert";
+    let mensaje = "@ViewBag.messageAlert";
+    let tipo = "@ViewBag.iconAlert";
+
+    function mostrar() {
+        Swal.fire(titulo, mensaje, tipo)
+    }
+
+    function limpiar() {
+        @{
+            Session["titleAlert"] = "";
+            Session["messageAlert"] = "";
+            Session["iconAlert"] = "";
+            ViewBag.titleAlert = "";
+            ViewBag.messageAlert = "";
+            ViewBag.iconAlert = "";
+        }
+        titulo = ""
+        mensaje = ""
+        tipo = ""
+    }
+
+    if (titulo != "") {
+        mostrar()
+        limpiar()
+    }
+</script>

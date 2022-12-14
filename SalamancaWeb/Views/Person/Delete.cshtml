@@ -1,0 +1,25 @@
+﻿@using SalamancaWeb.Models;
+@model Person
+@{
+    Layout = null;
+}
+
+<div class="card">
+    @using(Html.BeginForm("Delete", "Person", FormMethod.Post, new { @id = "formulario" })) {
+        @Html.HiddenFor(m => m.idPerson)
+        <div class="card-body">
+            <p>¿Seguro que deseas eliminar la Persona:  <span class="font-weight-bold">@Model.names @Model.fatherLastname @Model.motherLastname</span>?</p>
+            <p class="font-italic">*Se eliminaran todos los datos asociados a la Persona.</p>
+        </div>
+        <div class="card-footer row">
+            <div class="col-md-6">
+                <button id="btnDelete" data-message="Eliminando Persona!" type="submit" class="btn btn-primary btn-block"><i class="fas fa-trash"></i>  Eliminar</button>
+            </div>
+            <div class="col-md-6">
+                <button data-dismiss="modal" class="btn btn-danger btn-block">Cancelar</button>
+            </div>
+        </div>
+    }
+</div>
+
+<script src="~/Assets/model/actions/delete.js"></script>

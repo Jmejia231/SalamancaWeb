@@ -1,0 +1,48 @@
+﻿@using SalamancaWeb.Models;
+@model LoginUser
+
+@{
+    ViewBag.Title = "Detalle del Usuario";
+    Layout = null;
+}
+
+<div class="card">
+    <div class="card-body">
+        <dl class="dl-horizontal">
+            <div class="row">
+                <div class="col-12">
+                    <dt>ID</dt>
+                    <dd>@Model.idLoginUser</dd>
+                </div>
+                <div class="col-12">
+                    <dt>Nombre de Usuario</dt>
+                    <dd>@Model.username</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Nombres</dt>
+                    <dd>@Model.person.names</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Apellidos</dt>
+                    <dd>@Model.person.fatherLastname @Model.person.motherLastname</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Tipo de Cuenta</dt>
+                    <dd>@Model.userType.name</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Nivel de Acceos</dt>
+                    <dd>@Model.userType.accessLevel</dd>
+                </div>
+                <div class="col-12">
+                    <dt>Fecha de Creacion</dt>
+                    <dd>@Model.dateCreated</dd>
+                </div>
+                <div class="col-12">
+                    <dt>Estado</dt>
+                    <dd class="@(Model.person.status?"text-success":"text-danger")">@(Model.person.status?"Activo":"Inactivo")</dd>
+                </div>
+            </div>
+        </dl>
+    </div>
+</div>

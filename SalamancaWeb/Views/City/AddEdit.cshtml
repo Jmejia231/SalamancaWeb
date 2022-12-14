@@ -1,0 +1,90 @@
+﻿@using SalamancaWeb.Models;
+@model City
+@{
+    ViewBag.Title = (Model.idCity > 0 ? "Editar" : "Agregar") + " Departamento";
+    Layout = null;
+
+    List<SelectListItem> countries = (List<SelectListItem>)ViewBag.countries;
+}
+
+@using(Html.BeginForm("Save", "City", FormMethod.Post, new { @id = "formulario", @autocomplete = "off" }))
+{
+    @Html.HiddenFor(m => m.idCity)
+    <div class="card">
+        <div class="card-body">
+            <div class="form-group">
+                @Html.LabelFor(model => model.country.idCountry)
+                @Html.DropDownListFor(model => model.country.idCountry, countries, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.name)
+                @Html.TextBoxFor(model => model.name, null, new { @class = "form-control", @placeholder = "Nombre del Departamento" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.status)
+                <br />
+                <input type="checkbox" name="status" id="status" @(Model.status ? "checked" : "") data-bootstrap-switch data-off-color="danger" data-on-color="success" value="true">
+                <input name="status" type="hidden" value="false">
+            </div>
+        </div>
+        <div class="card-footer row">
+            <div class="col-md-6">
+                <button id="btnSave" data-message="@((Model.idCity > 0 ? "Modificando" : "Agregando") + " Departamento...!!!")" type="submit" class="btn btn-primary btn-block"><i class="fas fa-save"></i>  Guardar</button>
+            </div>
+            <div class="col-md-6">
+                <button data-dismiss="modal" class="btn btn-danger btn-block">Cancelar</button>
+            </div>
+        </div>
+    </div>
+}
+
+<script src="~/Assets/model/actions/addedit.js"></script>
+<script>
+    $(function () {
+        $('#formulario').validate({
+            rules: {
+                'country.idCountry': {
+                    required: true
+                },
+                name: {
+                    required: true,
+                    maxlength: 50,
+                    minlength: 3
+                },
+            },
+            messages: {
+                'country.idCountry': {
+                    required: "Seleccione el Pais",
+                },
+                name: {
+                    required: "Ingresar nombre del Departamento",
+                    maxlength: "El nombre del departamento debe tener como máximo 50 caracteres",
+                    minlength: "El nombre del departamento debe tener como minimo 3 caracteres"
+                },
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+        //DropDownList Select2
+        var modalFather = $('#modalCity');
+        var cmbCountry = $('#country_idCountry');
+        createCMB(cmbCountry, "Seleccione un Pais", modalCity);
+        if (`@Model.idCity` == 0)
+        {
+            clearSelection(cmbCountry)
+        }
+    });
+    //Switch
+    $("input[data-bootstrap-switch]").each(function () {
+        $(this).bootstrapSwitch('state', $(this).prop('checked'));
+    })
+</script>

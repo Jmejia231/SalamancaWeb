@@ -1,0 +1,27 @@
+﻿@using SalamancaWeb.Models;
+@model UserType
+@{
+    ViewBag.Title = "Detalle del Tipo de Usuario";
+    Layout = null;
+}
+
+<div class="card">
+    <div class="card-body">
+        <dl class="dl-horizontal">
+            <div class="row">
+                <div class="col-12">
+                    <dt>ID</dt>
+                    <dd>@Model.idUserType</dd>
+                </div>
+                <div class="col-12">
+                    <dt>Nombre</dt>
+                    <dd>@Model.name</dd>
+                </div>
+                <div class="col-12">
+                    <dt>Nivel de Acceso</dt>
+                    <dd>@Model.accessLevel</dd>
+                </div>
+            </div>
+        </dl>
+    </div>
+</div>

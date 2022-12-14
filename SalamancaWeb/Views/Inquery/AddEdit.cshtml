@@ -1,0 +1,100 @@
+﻿@using SalamancaWeb.Models;
+@model Inquery
+@{
+    ViewBag.Title = (Model.idInquery > 0 ? "Editar" : "Agregar") + " Consulta";
+    Layout = null;
+
+    List<SelectListItem> persons = (List<SelectListItem>)ViewBag.persons;
+}
+
+@using(Html.BeginForm("Save", "Inquery", FormMethod.Post, new { @id = "formulario", @autocomplete = "off" }))
+{
+    @Html.HiddenFor(m => m.idInquery)
+    @Html.HiddenFor(m => m.dateTime)
+    <div class="card">
+        <div class="card-body">
+            <div class="col-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.person.idPerson)
+                    @Html.DropDownListFor(model => model.person.idPerson, persons, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.motive)
+                    @Html.TextAreaFor(model => model.motive, new { @class = "form-control", @placeholder = "Motivo" })
+                </div>
+            </div>
+            @*<div class="col-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.dateTime)
+                    @Html.TextBoxFor(model => model.dateTime, null, new { @class = "form-control", @placeholder = "Fecha & Hora" })
+                </div>
+            </div>*@
+            <div class="form-group">
+                @Html.LabelFor(model => model.status)
+                <br />
+                <input type="checkbox" name="status" id="status" @(Model.status ? "checked" : "") data-bootstrap-switch data-off-color="danger" data-on-color="success" value="true">
+                <input name="status" type="hidden" value="false">
+            </div>
+        </div>
+        <div class="card-footer row">
+            <div class="col-md-6">
+                <button id="btnSave" data-message="@((Model.idInquery > 0 ? "Modificando" : "Agregando") + " Consulta!!!")" type="submit" class="btn btn-primary btn-block"><i class="fas fa-save"></i>  Guardar</button>
+            </div>
+            <div class="col-md-6">
+                <button data-dismiss="modal" class="btn btn-danger btn-block">Cancelar</button>
+            </div>
+        </div>
+    </div>
+}
+<script src="~/Assets/model/actions/addedit.js"></script>
+<script>
+    $(function () {
+        $('#formulario').validate({
+            rules: {
+                'person.idPerson': {
+                    required: true
+                },
+                motive: {
+                    required: true,
+                    maxlength: 255,
+                    minlength: 5
+                },
+            },
+            messages: {
+                'person.idPerson': {
+                    required: "Seleccione el Pais",
+                },
+                motivo: {
+                    required: "Ingresar Motivo de la Consulta",
+                    maxlength: "El Motivo de la Consulta debe tener como máximo 255 caracteres",
+                    minlength: "El Motivo de la Consulta debe tener como minimo 5 caracteres"
+                },
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+        //DropDownList Select2
+        var modalFather = $('#modalInquery');
+        var cmbInquery = $('#person_idPerson');
+        createCMB(cmbInquery, "Seleccione una Persona", modalFather);
+        if (`@Model.idInquery` == 0)
+        {
+            clearSelection(cmbInquery)
+        }
+    });
+    //Switch
+    $("input[data-bootstrap-switch]").each(function () {
+        $(this).bootstrapSwitch('state', $(this).prop('checked'));
+    })
+</script>

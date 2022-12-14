@@ -1,0 +1,114 @@
+﻿@using SalamancaWeb.Models;
+@model Treatment
+@{
+    ViewBag.Title = (Model.idTreatment > 0 ? "Editar" : "Agregar") + " Tratamiento";
+    Layout = null;
+
+    List<SelectListItem> inqueries = (List<SelectListItem>)ViewBag.inqueries;
+    List<SelectListItem> treatmentTypes = (List<SelectListItem>)ViewBag.treatmentTypes;
+}
+
+@using(Html.BeginForm("Save", "Treatment", FormMethod.Post, new { @id = "formulario", @autocomplete = "off" }))
+{
+    @Html.HiddenFor(m => m.idTreatment)
+    <div class="card">
+        <div class="card-body">
+            <div class="col-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.inquery.idInquery)
+                    @Html.DropDownListFor(model => model.inquery.idInquery, inqueries, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.treatmentType.idTreatmentType)
+                    @if(Model.idTreatment == 0)
+                    {
+                        @Html.DropDownList("treatmentType_idTreatmentTypes", treatmentTypes, new { @class = "form-control" })
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.treatmentType.idTreatmentType, treatmentTypes, new { @class = "form-control" })
+                    }
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.priceSoles)
+                    @Html.TextBoxFor(model => model.priceSoles, new { @class = "form-control", @placeholder = "Precio" })
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.timeEstimated)
+                    @Html.TextBoxFor(model => model.timeEstimated, new { @class = "form-control", @placeholder = "Tiempo Estiamdo" })
+                </div>
+            </div>
+        </div>
+        <div class="card-footer row">
+            <div class="col-md-6">
+                <button id="btnSave" data-message="@((Model.idTreatment > 0 ? "Modificando" : "Agregando") + " Tratamientos!!!")" type="submit" class="btn btn-primary btn-block"><i class="fas fa-save"></i>  Guardar</button>
+            </div>
+            <div class="col-md-6">
+                <button data-dismiss="modal" class="btn btn-danger btn-block">Cancelar</button>
+            </div>
+        </div>
+    </div>
+}
+<script src="~/Assets/model/actions/addedit.js"></script>
+<script>
+    $(function () {
+        $('#formulario').validate({
+            rules: {
+                'inquery.idInquery': {
+                    required: true
+                },
+                'treatmentType.idTreatmentType': {
+                    required: true
+                },
+                'treatmentType_idTreatmentTypes': {
+                    required: true
+                },
+            },
+            messages: {
+                'inquery.idInquery': {
+                    required: "Seleccione la Consulta de un Paciente",
+                },
+                'treatmentType.idTreatmentType': {
+                    required: "Seleccione un Tipo de Tratamiento",
+                },
+                'treatmentType_idTreatmentTypes': {
+                    required: "Seleccione por los menos un tipo de Tratamiento",
+                },
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+        //DropDownList Select2
+        var modalFather = $('#modalTreatment');
+        var cmbTreatmentType = $('#treatmentType_idTreatmentType');
+        var cmbTreatmentTypes = $('#treatmentType_idTreatmentTypes');
+        var cmbInquery = $('#inquery_idInquery');
+
+        createCMB(cmbTreatmentType, "Seleccione Tipo de Tratamiento", modalFather);
+        createCMB(cmbTreatmentTypes, "Seleccione Tipo de Tratamiento", modalFather, '', true);
+        createCMB(cmbInquery, "Seleccione una Consulta", modalFather);
+
+        if (`@Model.idTreatment` == 0)
+        {
+            clearSelection(cmbTreatmentType)
+            clearSelection(cmbTreatmentTypes)
+            clearSelection(cmbInquery)
+        }
+    });
+    
+</script>

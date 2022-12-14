@@ -1,0 +1,141 @@
+﻿@using SalamancaWeb.Models
+@using SalamancaWeb.Resources
+@model List<DocumentIdentityType>
+@{
+    ViewBag.Title = Options.DocumentIdentityType;
+    ViewBag.messageAlert = Session["messageAlert"];
+    ViewBag.titleAlert = Session["titleAlert"];
+    ViewBag.iconAlert = Session["iconAlert"];
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>@Options.DocumentIdentityType</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Mantenimiento</a></li>
+                    <li class="breadcrumb-item active">@Options.DocumentIdentityType</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <button type="button" class="btn bg-gradient-info" id="btnAddDocumentIdentityType" data-title="Agregar Tipo de Documento Identidad" data-target="#modalDocumentIdentityType" data-toggle="modal">
+                            <i class='bx bxs-plus-circle'></i>
+                            @AddMessage.DocumentIdentityType
+                        </button>
+
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="col-12 table-responsive mx-auto">
+                            <table id="table" class="table table-bordered table-hover table-sm text-center">
+                                <thead>
+                                    <tr>
+                                        <th>N°</th>
+                                        <th>Nombre</th>
+                                        <th>Abreviacion</th>
+                                        <th>Estado</th>
+                                        <th width="130px">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{int i = 1;}
+                                    @foreach(var documentIdentityType in Model) {
+                                        <tr>
+                                            <td>@i</td>
+                                            <td>@documentIdentityType.name</td>
+                                            <td>@documentIdentityType.abbreviation</td>
+                                            <td class="@(documentIdentityType.status?"text-success":"text-danger")"><i class="fas fa-circle"></i></td>
+
+                                            <td>
+                                                <button class="btn btn-primary btnDetailDocumentIdentityType" type="button" data-id="@documentIdentityType.idDocumentIdentityType" data-title="Detalle del Tipo de Documento Identidad" data-target="#modalDocumentIdentityType" data-toggle="modal">
+                                                    <i class='bx bx-info-circle'></i>
+                                                </button>
+                                                <button class="btn btn-success btnEditDocumentIdentityType" type="button" data-id="@documentIdentityType.idDocumentIdentityType" data-title="Actualizar Tipo de Documento Identidad" data-target="#modalDocumentIdentityType" data-toggle="modal">
+                                                    <i class='bx bxs-edit'></i>
+                                                </button>
+                                                <button class="btn btn-danger btnDeleteDocumentIdentityType" type="button" data-id="@documentIdentityType.idDocumentIdentityType" data-title="Eliminar Tipo de Documento Identidad" data-target="#modalDocumentIdentityType" data-toggle="modal">
+                                                    <i class='bx bx-trash'></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        i++;
+                                    }
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+
+
+<div class="modal fade" id="modalDocumentIdentityType" tabindex="-1" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCourseTitle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="modalDocumentIdentityTypeContenido">
+                </div>@* Contenido del Modal *@
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Assets/model/documentIdentityType.js"></script>
+<script type="text/javascript">
+
+    let titulo = "@ViewBag.titleAlert";
+    let mensaje = "@ViewBag.messageAlert";
+    let tipo = "@ViewBag.iconAlert";
+
+    function mostrar() {
+        Swal.fire(titulo, mensaje, tipo)
+    }
+
+    function limpiar() {
+        @{
+            Session["titleAlert"] = "";
+            Session["messageAlert"] = "";
+            Session["iconAlert"] = "";
+            ViewBag.titleAlert = "";
+            ViewBag.messageAlert = "";
+            ViewBag.iconAlert = "";
+        }
+        titulo = ""
+        mensaje = ""
+        tipo = ""
+    }
+
+    if (titulo != "") {
+        mostrar()
+        limpiar()
+    }
+</script>

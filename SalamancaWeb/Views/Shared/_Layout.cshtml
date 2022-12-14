@@ -1,0 +1,373 @@
+﻿@using SalamancaWeb.Helpers;
+@using SalamancaWeb.Resources;
+@using SalamancaWeb.Utility;
+@{ 
+    Layout = null;
+    List<GroupHelpers> groups = new List<GroupHelpers>
+    {
+        new GroupHelpers(Groups.None,new List<OptionHelpers>()
+        {
+            new OptionHelpers(Direction.Dashboard, Icon.Dashboard, Options.Dashboard, true),
+        }),
+        new GroupHelpers(Groups.Attention, new List<OptionHelpers>()
+        {
+            new OptionHelpers(ControllerNames.Inquery, Direction.Inquery, Icon.Inquery, Options.Inquery, true),
+            new OptionHelpers(ControllerNames.Treatment, Direction.Treatment, Icon.Treatment, Options.Treatment, true),
+            new OptionHelpers(ControllerNames.Antecedent, Direction.Antecedent, Icon.Antecedent, Options.Antecedent, true),
+            new OptionHelpers(ControllerNames.SuffersFrom, Direction.SuffersFrom, Icon.SuffersFrom, Options.SuffersFrom, true),
+            new OptionHelpers(ControllerNames.TreatmentDetail, Direction.TreatmentDetail, Icon.TreatmentDetail, Options.TreatmentDetail, true),
+            new OptionHelpers(ControllerNames.TreatmentEvolution, Direction.TreatmentEvolution, Icon.TreatmentEvolution, Options.TreatmentEvolution, true)
+        }),
+        new GroupHelpers(Groups.Staff, new List<OptionHelpers>()
+        {
+            new OptionHelpers(ControllerNames.Person, Direction.Person, Icon.Person, Options.Person, true),
+            new OptionHelpers(ControllerNames.LoginUser, Direction.LoginUser, Icon.LoginUser, Options.LoginUser, true),
+        }),
+        new GroupHelpers(Groups.Types,new List<OptionHelpers>()
+        {
+            new OptionHelpers(ControllerNames.DocumentIdentityType, Direction.DocumentIdentityType, Icon.DocumentIdentityType, Options.DocumentIdentityType, true),
+            new OptionHelpers(ControllerNames.DiseaseType, Direction.DiseaseType, Icon.DiseaseType, Options.DiseaseType, true),
+            new OptionHelpers(ControllerNames.AntecedentType, Direction.AntecedentType, Icon.AntecedentType, Options.AntecedentType, true),
+            new OptionHelpers(ControllerNames.TreatmentType, Direction.TreatmentType, Icon.TreatmentType, Options.TreatmentType, true),
+            new OptionHelpers(ControllerNames.UserType, Direction.UserType, Icon.UserType, Options.UserType, true),
+            new OptionHelpers(ControllerNames.Gender, Direction.Gender, Icon.Gender, Options.Gender, true)
+        }),
+        new GroupHelpers(Groups.Status, new List<OptionHelpers>()
+        {
+            new OptionHelpers(ControllerNames.AttentionStatus, Direction.AttentionStatus, Icon.AttentionStatus, Options.AttentionStatus, true),
+            new OptionHelpers(ControllerNames.TreatmentStatus, Direction.TreatmentStatus, Icon.TreatmentStatus, Options.TreatmentStatus, true),
+
+        }),
+        new GroupHelpers(Groups.Places, new List<OptionHelpers>()
+        {
+            new OptionHelpers(ControllerNames.Country, Direction.Country, Icon.Country, Options.Country, true),
+            new OptionHelpers(ControllerNames.City, Direction.City, Icon.City, Options.City, true)
+        })
+    };
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="shortcut icon" href="~/Img/Icons/icon.png" />
+    @*<link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+        <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <script src="~/Scripts/modernizr-2.8.3.js"></script>*@
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link href="~/Assets/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <!-- Theme style -->
+    <link href="~/Assets/dist/css/adminlte.min.css" rel="stylesheet" />
+    <!-- Box Icons-->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <!-- Utility -->
+    <script src="~/Assets/model/utility.js"></script>
+    <!-- DropDownList Select2 -->
+    <link href="~/Assets/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/Assets/select2-bootstrap4-theme/select2-bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/Assets/select2-own/css/select2-own-style.css" rel="stylesheet" />
+    <!-- daterange picker -->
+    <link href="~/Assets/daterangepicker/daterangepicker.css" rel="stylesheet" />
+    <!-- jQuery -->
+    <script src="~/Assets/jquery/jquery.min.js"></script>
+    <!-- bootstrap color picker -->
+    <link href="~/Assets/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css" rel="stylesheet" />
+    <!-- Datatable -->
+    <link href="~/Assets/datatables-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/Assets/datatables-responsive/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/Assets/datatables-buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />
+    <!-- Sweet Alert 2 -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Overlay Scrollbar-->
+    <link href="~/Assets/overlayScrollbars/css/OverlayScrollbars.min.css" rel="stylesheet" />
+
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="#" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="#" class="nav-link">Pacientes</a>
+                </li>
+            </ul>
+
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+
+                <!-- Expand Fullscreen -->
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a href="#" class="brand-link">
+                <img src="~/Img/Icons/icon.png" alt="Salamanca Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span class="brand-text font-weight-light">Clinica Salamanca</span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Sidebar user (optional) -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image">
+                        @*<i class='bx bxs-user-badge bx-lg'></i>*@
+                        <box-icon type='solid' size="lg" color="white" name='user-badge'></box-icon>
+                        @*<img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">*@
+
+                    </div>
+                    <div class="info">
+                        <a href="#" class="d-block">Julio Mejia</a>
+                        <a href="#" class="d-block">Administrador</a>
+                    </div>
+                </div>
+
+                <!-- SidebarSearch Form -->
+                <div class="form-inline">
+                    <div class="input-group" data-widget="sidebar-search">
+                        <input class="form-control form-control-sidebar" type="search" placeholder="Buscar" aria-label="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-sidebar">
+                                <i class="fas fa-search fa-fw"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- Add icons to the links using the .nav-icon class
+                        with font-awesome or any other icon font library -->
+
+                        @foreach(var group in groups)
+                        {
+                            <li class="nav-header">@group.name</li>
+                            foreach(var option in group.options)
+                            {
+                                if(option.showOption)
+                                {
+                                    <li class="nav-item">
+                                        <a href="~/@option.route" class="nav-link @Html.IsActive(option.controller, Direction.Index)">
+                                            @*<i class="nav-icon far fa-calendar-alt"></i>*@
+                                            <i class='@option.icon'></i>
+                                            <p>
+                                                @option.option
+                                                @*<span class="badge badge-info right">2</span>*@
+                                            </p>
+                                        </a>
+                                    </li>
+                                }
+                            }
+                        }
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+        </aside>
+        <!-- /.sidebar -->
+
+        <div class="content-wrapper">
+            @RenderBody()
+        </div>
+        <footer class="main-footer text-center">
+            <div class="float-right d-none d-sm-block">
+                <b>Version</b> 3.2.0
+            </div>
+            <strong>Copyright &copy; 2022 <a href="#">Julio Mejia</a>.</strong> All rights reserved.
+        </footer>
+    </div>
+
+    @*<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>*@
+
+    <!-- jQuery -->
+    <script src="~/Assets/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/Assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- DropDownList Select2 -->
+    <script src="~/Assets/select2/js/select2.full.min.js"></script>
+    <!-- Datatable -->
+    <script src="~/Assets/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/Assets/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Assets/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/Assets/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/Assets/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/Assets/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="~/Assets/jszip/jszip.min.js"></script>
+    <script src="~/Assets/pdfmake/pdfmake.min.js"></script>
+    <script src="~/Assets/pdfmake/vfs_fonts.js"></script>
+    <script src="~/Assets/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/Assets/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="~/Assets/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <!-- Bootstrap Switch -->
+    <script src="~/Assets/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+    <!-- bootstrap color picker -->
+    <script src="~/Assets/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+    <!-- daterange picker -->
+    <script src="~/Assets/daterangepicker/daterangepicker.js"></script>
+    <!-- jquery-validation -->
+    <script src="~/Assets/jquery-validation/jquery.validate.min.js"></script>
+    <script src="~/Assets/jquery-validation/additional-methods.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/Assets/dist/js/adminlte.min.js"></script>
+    <!-- Overlay Scrollbar-->
+    <script src="~/Assets/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+
+    <!-- Page specific script -->
+    <script>
+        $(function () {
+            $("#table").DataTable({
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "?ltimo",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }
+                },
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "buttons": [
+                    {
+                        extend: 'copy',
+                        text: '<i class="fas fa-copy"></i>',
+                        tittleAttr: 'Copiar',
+                        className: 'btn btn-warning'
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        text: '<i class="fas fa-file-excel"></i>',
+                        tittleAttr: 'Exportar a Excel',
+                        className: 'btn btn-success'
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        text: '<i class="fas fa-file-pdf"></i>',
+                        tittleAttr: 'Exportar a PDF',
+                        className: 'btn btn-danger'
+                    },
+                    {
+                        extend: 'print',
+                        text: '<i class="fas fa-print"></i>',
+                        tittleAttr: 'Imprimir',
+                        className: 'btn btn-secodary'
+                    },
+                    {
+                        extend: 'colvis',
+                        text: '<i class="fas fa-eye"></i>',
+                        tittleAttr: 'Visibilidad',
+                        className: 'btn btn-dark'
+                    }
+                ]
+            }).buttons().container().appendTo('#table_wrapper .col-md-6:eq(0)');
+            $(".table-grouping").DataTable({
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "?ltimo",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }
+                },
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "buttons": [
+                    {
+                        extend: 'copy',
+                        text: '<i class="fas fa-copy"></i>',
+                        tittleAttr: 'Copiar',
+                        className: 'btn btn-warning'
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        text: '<i class="fas fa-file-excel"></i>',
+                        tittleAttr: 'Exportar a Excel',
+                        className: 'btn btn-success'
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        text: '<i class="fas fa-file-pdf"></i>',
+                        tittleAttr: 'Exportar a PDF',
+                        className: 'btn btn-danger'
+                    },
+                    {
+                        extend: 'print',
+                        text: '<i class="fas fa-print"></i>',
+                        tittleAttr: 'Imprimir',
+                        className: 'btn btn-secodary'
+                    },
+                    {
+                        extend: 'colvis',
+                        text: '<i class="fas fa-eye"></i>',
+                        tittleAttr: 'Visibilidad',
+                        className: 'btn btn-dark'
+                    }
+                ]
+            }).buttons().container().appendTo('.dataTables_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+
+</body>
+</html>

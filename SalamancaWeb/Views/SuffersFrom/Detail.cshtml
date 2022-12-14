@@ -1,0 +1,36 @@
+﻿@using SalamancaWeb.Models;
+@model SuffersFrom
+
+@{
+    ViewBag.Title = "Detalle de Padecimiento";
+    Layout = null;
+}
+
+<div class="card">
+    <div class="card-body">
+        <dl class="dl-horizontal">
+            <div class="row">
+                <div class="col-12">
+                    <dt>ID</dt>
+                    <dd>@Model.idSuffersFrom</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Nombres</dt>
+                    <dd>@Model.inquery.person.names</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Apellidos</dt>
+                    <dd>@Model.inquery.person.fatherLastname @Model.inquery.person.motherLastname</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Tipo de Padecimiento</dt>
+                    <dd>@Model.diseaseType.name</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Estado</dt>
+                    <dd class="@(Model.status?"text-success":"text-danger")">@(Model.status?"Activo":"Inactivo")</dd>
+                </div>
+            </div>
+        </dl>
+    </div>
+</div>

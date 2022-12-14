@@ -1,0 +1,75 @@
+﻿@using SalamancaWeb.Models;
+@model UserType
+@{
+    ViewBag.Title = (Model.idUserType > 0 ? "Editar" : "Agregar") + " Tipo de Usuario";
+    Layout = null;
+}
+
+@using(Html.BeginForm("Save", "UserType", FormMethod.Post, new { @id = "formulario", @autocomplete = "off" })) {
+    @Html.HiddenFor(m => m.idUserType)
+    <div class="card">
+        <div class="card-body">
+            <div class="form-group">
+                @Html.LabelFor(model => model.name)
+                @Html.TextBoxFor(model => model.name, null, new { @class = "form-control", @placeholder = "Tipo de Usuario" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.accessLevel)
+                @Html.TextBoxFor(model => model.accessLevel, null, new { @class = "form-control", @placeholder = "Nivel de Acceso" })
+            </div>
+        </div>
+        <div class="card-footer row">
+            <div class="col-md-6">
+                <button id="btnSave" data-message="@((Model.idUserType > 0 ? "Modificando" : "Agregando") + " Tipo de Usuario...!!!")" type="submit" class="btn btn-primary btn-block"><i class="fas fa-save"></i>  Guardar</button>
+            </div>
+            <div class="col-md-6">
+                <button data-dismiss="modal" class="btn btn-danger btn-block">Cancelar</button>
+            </div>
+        </div>
+    </div>
+}
+<script src="~/Assets/model/actions/addedit.js"></script>
+<script>
+    $(function () {
+        $('#formulario').validate({
+            rules: {
+                name: {
+                    required: true,
+                    maxlength: 25,
+                    minlength: 4
+                },
+                accessLevel: {
+                    required: true,
+                    maxlength: 1,
+                    minlength: 1
+                },
+            },
+            messages: {
+                name: {
+                    required: "Ingresar nombre del Tipo de Usuario",
+                    maxlength: "El nombre del tipo de padecimiento debe tener como máximo 25 caracteres",
+                    minlength: "El nombre del tipo de padecimiento debe tener como minimo 4 caracteres"
+                },
+                accessLevel: {
+                    required: "Ingresar Nivel de Acceso",
+                    maxlength: "El nivel de acceso debe tener como máximo 1 caracteres",
+                    minlength: "El nivel de acceso debe tener como minimo 1 caracteres"
+                }
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+        $("input[data-bootstrap-switch]").each(function () {
+            $(this).bootstrapSwitch('state', $(this).prop('checked'));
+        })
+    });
+</script>

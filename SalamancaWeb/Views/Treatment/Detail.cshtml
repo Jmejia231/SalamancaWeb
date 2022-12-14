@@ -1,0 +1,40 @@
+﻿@using SalamancaWeb.Models;
+@model Treatment
+
+@{
+    ViewBag.Title = "Detalle del Tratamiento";
+    Layout = null;
+}
+
+<div class="card">
+    <div class="card-body">
+        <dl class="dl-horizontal">
+            <div class="row">
+                <div class="col-12">
+                    <dt>ID</dt>
+                    <dd>@Model.idTreatment</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Nombres</dt>
+                    <dd>@Model.inquery.person.names</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Apellidos</dt>
+                    <dd>@Model.inquery.person.fatherLastname @Model.inquery.person.motherLastname</dd>
+                </div>
+                <div class="col-6">
+                    <dt>Tipo de Tratamiento</dt>
+                    <dd>@Model.treatmentType.name</dd>
+                </div>
+                <div class="col-12">
+                    <dt>Precio</dt>
+                    <dd>@Model.priceSoles</dd>
+                </div>
+                <div class="col-12">
+                    <dt>Tiempo Estimado</dt>
+                    <dd>@Model.timeEstimated</dd>
+                </div>
+            </div>
+        </dl>
+    </div>
+</div>

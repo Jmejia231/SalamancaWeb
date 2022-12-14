@@ -1,0 +1,111 @@
+﻿@using SalamancaWeb.Models;
+@model SuffersFrom
+@{
+    ViewBag.Title = (Model.idSuffersFrom > 0 ? "Editar" : "Agregar") + " Padecimiento";
+    Layout = null;
+
+    List<SelectListItem> inqueries = (List<SelectListItem>)ViewBag.inqueries;
+    List<SelectListItem> diseaseTypes = (List<SelectListItem>)ViewBag.diseaseTypes;
+}
+
+@using(Html.BeginForm("Save", "SuffersFrom", FormMethod.Post, new { @id = "formulario", @autocomplete = "off" }))
+{
+    @Html.HiddenFor(m => m.idSuffersFrom)
+    <div class="card">
+        <div class="card-body">
+            <div class="col-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.inquery.idInquery)
+                    @Html.DropDownListFor(model => model.inquery.idInquery, inqueries, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.diseaseType.idDiseaseType)
+                    @if(Model.idSuffersFrom == 0)
+                    {
+                        @Html.DropDownList("diseaseType_idDiseaseTypes", diseaseTypes, new { @class = "form-control" })
+                    } else { 
+                        @Html.DropDownListFor(model => model.diseaseType.idDiseaseType, diseaseTypes, new { @class = "form-control" })
+                    }
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.status)
+                    <br />
+                    <input type="checkbox" name="status" id="status" @(Model.status ? "checked" : "") data-bootstrap-switch data-off-color="danger" data-on-color="success" value="true">
+                    <input name="status" type="hidden" value="false">
+                </div>
+            </div>
+        </div>
+        <div class="card-footer row">
+            <div class="col-md-6">
+                <button id="btnSave" data-message="@((Model.idSuffersFrom > 0 ? "Modificando" : "Agregando") + " Padecimiento!!!")" type="submit" class="btn btn-primary btn-block"><i class="fas fa-save"></i>  Guardar</button>
+            </div>
+            <div class="col-md-6">
+                <button data-dismiss="modal" class="btn btn-danger btn-block">Cancelar</button>
+            </div>
+        </div>
+    </div>
+}
+<script src="~/Assets/model/actions/addedit.js"></script>
+<script>
+    $(function () {
+        $('#formulario').validate({
+            rules: {
+                'inquery.idInquery': {
+                    required: true
+                },
+                'diseaseType.idDiseaseType': {
+                    required: true
+                },
+                'diseaseType_idDiseaseTypes': {
+                    required: true
+                },
+            },
+            messages: {
+                'inquery.idInquery': {
+                    required: "Seleccione la Consulta de un Paciente",
+                },
+                'diseaseType.idDiseaseType': {
+                    required: "Seleccione un Tipo de Antecedente",
+                },
+                'diseaseType_idDiseaseTypes': {
+                    required: "Seleccione por los menos un tipo de padecimiento",
+                },
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+        //DropDownList Select2
+        var modalFather = $('#modalSuffersFrom');
+        var cmbDiseaseType = $('#diseaseType_idDiseaseType');
+        var cmbDiseaseTypes = $('#diseaseType_idDiseaseTypes');
+        var cmbInquery = $('#inquery_idInquery');
+
+        createCMB(cmbDiseaseType, "Seleccione Tipo de Padecimiento", modalFather);
+        createCMB(cmbDiseaseTypes, "Seleccione Tipo de Padecimiento", modalFather, '', true);
+        createCMB(cmbInquery, "Seleccione una Consulta", modalFather);
+
+        if (`@Model.idSuffersFrom` == 0)
+        {
+            clearSelection(cmbDiseaseType)
+            clearSelection(cmbDiseaseTypes)
+            clearSelection(cmbInquery)
+        }
+    });
+    //Switch
+    $("input[data-bootstrap-switch]").each(function () {
+        $(this).bootstrapSwitch('state', $(this).prop('checked'));
+    })
+</script>
